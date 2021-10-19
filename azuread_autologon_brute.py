@@ -175,7 +175,7 @@ def checkURL(userline):
             outfilestream.write("[+] FOUND VALID USERNAME:{}\n".format(credentialset))
         writeLock.release()
     elif "AADSTS81016" in xmlresponse:
-        print("[+] VALID USERNAME, invalid password :{}".format(credentialset))
+        print("[+] VALID ADFS USERNAME, invalid password :{}".format(credentialset))
         writeLock.acquire()
         with open(outputfile,"a") as outfilestream:
             outfilestream.write("[+] FOUND VALID USERNAME:{}\n".format(credentialset))
