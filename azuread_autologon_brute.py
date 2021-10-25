@@ -178,7 +178,7 @@ def checkURL(userline):
         print("[+] VALID ADFS USERNAME, invalid password :{}".format(credentialset))
         writeLock.acquire()
         with open(outputfile,"a") as outfilestream:
-            outfilestream.write("[+] FOUND VALID USERNAME:{}\n".format(credentialset))
+            outfilestream.write("[+] FOUND VALID ADFS USERNAME:{}\n".format(credentialset))
         writeLock.release()
     elif "DesktopSsoToken" in xmlresponse:
         print("[+] VALID CREDS! :{}".format(credentialset))
@@ -204,6 +204,10 @@ def checkURL(userline):
         writeLock.release()
     elif "AADSTS50053" in xmlresponse:
         print("[?] SMART LOCKOUT DETECTED - Unable to enumerate:{}".format(credentialset))
+        writeLock.acquire()
+        with open(outputfile,"a") as outfilestream:
+            outfilestream.write("[+] Smart Lockout:{}\n".format(credentialset))
+        writeLock.release()
     else:
         print("[!] I have NO clue what just happened. sorry. ", credentialset)
         print(xmlresponse)
