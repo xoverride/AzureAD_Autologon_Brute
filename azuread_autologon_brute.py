@@ -18,6 +18,14 @@ from requests.packages.urllib3.util.retry import Retry
 import uuid
 import argparse
 
+def xml_escape(s_val):
+    s_val = s_val.replace("&", "&amp;")
+    s_val = s_val.replace("<", "&lt;")
+    s_val = s_val.replace(">", "&gt;")
+    s_val = s_val.replace("\"", "&quot;")
+    s_val = s_val.replace("'", "&apos;")
+    return s_val
+
 writeLock = Semaphore(value = 1)
 
 # initiate the parser
@@ -128,8 +136,8 @@ def checkURL(userline):
     tempdata = data
     tempdata = tempdata.replace("UsernameTokenPlaceholder", UserTokenGuid)
     tempdata = tempdata.replace("MessageIDPlaceholder", MessageIDGuid)
-    tempdata = tempdata.replace("UsernamePlaceholder", username)
-    tempdata = tempdata.replace("PasswordPlaceholder", password)
+    tempdata = tempdata.replace("UsernamePlaceholder", xml_escape(username))
+    tempdata = tempdata.replace("PasswordPlaceholder", xml_escape(password))
 
     request_headers = {'client-request-id': requestid , 'return-client-request-id':'true', 'Content-type':'application/soap+xml; charset=utf-8'}
     url = "https://autologon.microsoftazuread-sso.com/" + domain + "/winauth/trust/2005/usernamemixed?client-request-id=" + requestid  + ""
